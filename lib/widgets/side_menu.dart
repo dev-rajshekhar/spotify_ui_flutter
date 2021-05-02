@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotify_ui/data/data.dart';
 
 class SideMenu extends StatelessWidget {
   @override
@@ -76,24 +77,90 @@ class _SideMenuIcon extends StatelessWidget {
   }
 }
 
-class _LibraryPlayList extends StatelessWidget {
+class _LibraryPlayList extends StatefulWidget {
+  @override
+  __LibraryPlayListState createState() => __LibraryPlayListState();
+}
+
+class __LibraryPlayListState extends State<_LibraryPlayList> {
+  ScrollController? _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
-      physics: const ClampingScrollPhysics(),
-      children: [
-        Column(
+    return Expanded(
+      child: Scrollbar(
+        isAlwaysShown: true,
+        controller: _scrollController,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          physics: const ClampingScrollPhysics(),
           children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Text("Your Library",
-                  style: Theme.of(context).textTheme.headline4),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: Text(
+                    "Your Library",
+                    style: Theme.of(context).textTheme.headline4,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                ...yourLibrary
+                    .map((e) => ListTile(
+                          dense: true,
+                          title: Text(
+                            e,
+                            style: Theme.of(context).textTheme.bodyText2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          onTap: () => {},
+                        ))
+                    .toList()
+              ],
+            ),
+            const SizedBox(height: 12.0),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: Text(
+                    "Playlist",
+                    style: Theme.of(context).textTheme.headline4,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                ...playlists
+                    .map((e) => ListTile(
+                          dense: true,
+                          title: Text(
+                            e,
+                            style: Theme.of(context).textTheme.bodyText2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          onTap: () => {},
+                        ))
+                    .toList()
+              ],
             )
           ],
-        )
-      ],
+        ),
+      ),
     );
   }
 }
