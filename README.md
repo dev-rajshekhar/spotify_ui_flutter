@@ -1,6 +1,11 @@
-# spotify_ui
+# spotify ui
 
-A new Flutter project.
+A flutter desktop mac os application (clone of spotify).
+
+## Screenshot
+
+
+
 
 ## Getting Started
 
